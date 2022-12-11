@@ -18,6 +18,20 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const saveContacts = localStorage.getItem('contacts');
+    if (saveContacts) {
+      this.setState({ contacts: JSON.parse(saveContacts) });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
+
   filterHandler = event => {
     this.setState({ filter: event.target.value });
   };
